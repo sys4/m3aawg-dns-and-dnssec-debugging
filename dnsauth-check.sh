@@ -231,7 +231,7 @@ echo " Testing TCPv4"
 test-TCP-v4
 echo " Testing TCPv6"
 test-TCP-v6
-echo " Testing EDNS Response Size"
+echo " Testing EDNS Response Size (Policy: ${ednspolicy} bytes)"
 test-EDNS-response-size
 echo " Test Parent - Child Delegation"
 test-parent-child-delegation
