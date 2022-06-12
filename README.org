@@ -1,11 +1,16 @@
-* DNS Resolver Monitoring
+* DNS Server and Zone Monitoring
 
-Scripts for DNS resolver monitoring
+This repository contains a collection of functional checks for a DNS
+resolver and authoritative server
 
-This repository contains a collection of functional checks for a DNS resolver
-
+** DNS resolver checks
 usage
-
 #+begin_example
 bash ./dnsresolver-check.sh <ip-of-dns-resolver>
+#+end_example
+
+** DNS zone checks
+usage
+#+begin_example
+bash ./dnsauth-check.sh <name-of-dns-zone>
 #+end_example
