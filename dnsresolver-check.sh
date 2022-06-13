@@ -122,26 +122,38 @@ function servfail() {
 }
 
 function test-A-record-v4 {
-     step "query A-Record over IPv4/UDP:"
+     step "query A-Record over UDP:"
      try dnsquery dnssec.works A
      next
     }
 
 function test-AAAA-record-v4 {
-     step "query AAAA-Record over IPv4/UDP:"
+     step "query AAAA-Record over UDP:"
      try dnsquery dnssec.works AAAA
      next
     }
 
 function test-A-record-v4-tcp {
-     step "query A-Record over IPv4/TCP:"
+     step "query A-Record over TCP:"
      try dig @${dnsserver} dnssec.works A +tcp | grep NOERROR 1>/dev/null
      next
     }
 
 function test-AAAA-record-v4-tcp {
-     step "query AAAA-Record over IPv4/TCP:"
+     step "query AAAA-Record over TCP:"
      try dnsquery dnssec.works AAAA +tcp
+     next
+    }
+
+function test-A-record-v4-tls {
+     step "query A-Record over TLS:"
+     try dig @${dnsserver} dnssec.works A +tls | grep NOERROR 1>/dev/null
+     next
+    }
+
+function test-A-record-v4-https {
+     step "query A-Record over HTTPS:"
+     try dnsquery dnssec.works A +https
      next
     }
 
@@ -259,11 +271,16 @@ function test-rebind-protect {
 ## Tests start here
 
 dnsserver=${1}
+digvers=$(dig -v 2>&1 | cut -f 2 -d '.')
 
 test-A-record-v4
 test-AAAA-record-v4
 test-A-record-v4-tcp
 test-AAAA-record-v4-tcp
+if [ "${digvers}" -ge "18" ]; then # support for TLS/HTTPS started in BIND 9.18
+    test-A-record-v4-tls
+    test-A-record-v4-https
+fi
 test-UDP-over-512
 test-UDP-over-1232
 test-UDP-over-1500
